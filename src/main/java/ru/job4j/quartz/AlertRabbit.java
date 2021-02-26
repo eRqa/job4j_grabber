@@ -12,22 +12,21 @@ import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
-    public static void main(String[] args) {
-        try {
-            Settings settings = new Settings();
-            ClassLoader loader = Settings.class.getClassLoader();
-            InputStream inputStream = loader.getResourceAsStream("rabbit.properties");
-            settings.load(inputStream);
-            int interval = Integer.parseInt(settings.getValue("rabbit.interval"));
+    public static void main(String[] args) throws ClassNotFoundException {
 
-            String url = settings.getValue("url");
-            String login = settings.getValue("username");
-            String password = settings.getValue("password");
-            String driver = settings.getValue("driver-class-name");
+        Settings settings = new Settings();
+        ClassLoader loader = Settings.class.getClassLoader();
+        InputStream inputStream = loader.getResourceAsStream("rabbit.properties");
+        settings.load(inputStream);
+        int interval = Integer.parseInt(settings.getValue("rabbit.interval"));
 
-            Class.forName(driver);
-            Connection cn = DriverManager.getConnection(url, login, password);
+        String url = settings.getValue("url");
+        String login = settings.getValue("username");
+        String password = settings.getValue("password");
+        String driver = settings.getValue("driver-class-name");
+        Class.forName(driver);
 
+        try (Connection cn = DriverManager.getConnection(url, login, password)) {
             JobDataMap data = new JobDataMap();
             data.put("connection", cn);
 
@@ -44,7 +43,7 @@ public class AlertRabbit {
             scheduler.scheduleJob(job, trigger);
             Thread.sleep(10000);
             scheduler.shutdown();
-        } catch (SchedulerException | SQLException | ClassNotFoundException | InterruptedException se) {
+        } catch (SchedulerException | SQLException | InterruptedException se) {
             se.printStackTrace();
         }
     }
