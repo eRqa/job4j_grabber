@@ -14,17 +14,21 @@ import java.util.Locale;
 
 public class SqlRuParse {
     private static final Locale LOCALE = new Locale("ru");
+    private static final int COUNT_OF_PAGES_TO_PARSE = 5;
     private static final String[] SHORT_MONTHS = {
             "янв", "фев", "мар", "апр", "май", "июн", "июл", "ауг", "сен", "окт", "ноя", "дек"};
 
     public static void main(String[] args) throws Exception {
-        Document doc = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
-        Elements rowTheme = doc.select(".postslisttopic");
-        for (Element td : rowTheme) {
-            Element href = td.child(0);
-            Element data = td.parent().child(5);
-            System.out.println(href.attr("href"));
-            System.out.println(href.text() + " - " + strToDate(data.text()));
+
+        for (int i = 1; i <= COUNT_OF_PAGES_TO_PARSE; i++) {
+            Document doc = Jsoup.connect("https://www.sql.ru/forum/job-offers/" + i).get();
+            Elements rowTheme = doc.select(".postslisttopic");
+            for (Element td : rowTheme) {
+                Element href = td.child(0);
+                Element data = td.parent().child(5);
+                System.out.println(href.attr("href"));
+                System.out.println(href.text() + " - " + strToDate(data.text()));
+            }
         }
     }
 
