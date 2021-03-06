@@ -1,6 +1,7 @@
 package ru.job4j.models;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Post {
 
@@ -60,5 +61,19 @@ public class Post {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(text, post.text) &&
+                Objects.equals(author, post.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, author);
     }
 }
