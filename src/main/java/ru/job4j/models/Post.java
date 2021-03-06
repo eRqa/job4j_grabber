@@ -18,6 +18,10 @@ public class Post {
         this.created = created;
     }
 
+    public Post() {
+
+    }
+
     public String getId() {
         return id;
     }
@@ -36,5 +40,25 @@ public class Post {
 
     public Date getCreated() {
         return created;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }
