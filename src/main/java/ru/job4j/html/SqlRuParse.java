@@ -15,11 +15,10 @@ import java.util.List;
 
 public class SqlRuParse implements Parse {
 
-//    private static final int COUNT_OF_PAGES_TO_PARSE = 5;
     private final DateParser dateParser = new DateParser();
 
     @Override
-    public List<Post> list(String link) {
+    public List<Post> list(String link) throws ParseException {
         List<Post> result = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(link).get();
@@ -36,13 +35,9 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public Post detail(String link) {
-        Document docPost = null;
-        try {
-            docPost = Jsoup.connect(link).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Post detail(String link) throws IOException, ParseException {
+        Document docPost = Jsoup.connect(link).get();
+
         Elements msgTables = docPost.select(".msgTable");
         Elements msgBodies = msgTables.select(".msgBody");
         Elements msgFooters = msgTables.select(".msgFooter");
@@ -51,12 +46,7 @@ public class SqlRuParse implements Parse {
         postName = postName.substring(4, postName.length() - 5);
         String postText = msgBodies.get(1).text();
         String dateText = msgFooters.get(1).text().substring(0, 16);
-        Date postCreated = null;
-        try {
-            postCreated = dateParser.strToDate(dateText);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date postCreated = dateParser.strToDate(dateText);
         List<Node> childNodes = msgBodies.get(0).child(0).childNodes();
         String author = childNodes.get(0).toString();
 
