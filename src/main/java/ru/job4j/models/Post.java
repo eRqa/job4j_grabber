@@ -6,16 +6,16 @@ import java.util.Objects;
 public class Post {
 
     private String id;
+    private String link;
     private String name;
     private String text;
-    private String author;
     private Date created;
 
-    public Post(String id, String name, String text, String author, Date created) {
+    public Post(String id, String link, String name, String text, Date created) {
         this.id = id;
+        this.link = link;
         this.name = name;
         this.text = text;
-        this.author = author;
         this.created = created;
     }
 
@@ -35,10 +35,6 @@ public class Post {
         return text;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -55,25 +51,26 @@ public class Post {
         this.text = text;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public void setCreated(Date created) {
         this.created = created;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return Objects.equals(text, post.text) &&
-                Objects.equals(author, post.author);
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(text, author);
+    public String toString() {
+        return "Post{" +
+                "id='" + id + '\'' +
+                ", link='" + link + '\'' +
+                ", name='" + name + '\'' +
+                ", text='" + text + '\'' +
+                ", created=" + created +
+                '}';
     }
 }

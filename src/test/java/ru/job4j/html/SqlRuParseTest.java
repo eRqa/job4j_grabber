@@ -3,6 +3,8 @@ package ru.job4j.html;
 import junit.framework.TestCase;
 import ru.job4j.models.Post;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 
 import static org.hamcrest.core.Is.is;
@@ -10,7 +12,7 @@ import static org.junit.Assert.assertThat;
 
 public class SqlRuParseTest extends TestCase {
 
-    public void testDetail() {
+    public void testDetail() throws IOException, ParseException {
         String link = "https://www.sql.ru/forum/1333945/vakansii-sovkombank";
         SqlRuParse parser = new SqlRuParse();
         Post post = parser.detail(link);
@@ -31,7 +33,7 @@ public class SqlRuParseTest extends TestCase {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2021, 3, 2, 12, 54);
         expectedPost.setCreated(calendar.getTime());
-        expectedPost.setAuthor(" BankIT ");
+//        expectedPost.setAuthor(" BankIT ");
         expectedPost.setName("Вакансии Совкомбанк");
         assertThat(post, is(expectedPost));
     }

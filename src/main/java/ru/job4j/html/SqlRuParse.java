@@ -3,7 +3,6 @@ package ru.job4j.html;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import ru.job4j.models.Post;
 
@@ -42,18 +41,18 @@ public class SqlRuParse implements Parse {
         Elements msgBodies = msgTables.select(".msgBody");
         Elements msgFooters = msgTables.select(".msgFooter");
 
-        String postName = msgTables.select("td.messageHeader").get(1).text();
-        postName = postName.substring(4, postName.length() - 5);
+        String postName = msgTables.select("td.messageHeader").get(0).text();
         String postText = msgBodies.get(1).text();
-        String dateText = msgFooters.get(1).text().substring(0, 16);
+        String dateText = msgFooters.get(0).text();
         Date postCreated = dateParser.strToDate(dateText);
-        List<Node> childNodes = msgBodies.get(0).child(0).childNodes();
-        String author = childNodes.get(0).toString();
+//        List<Node> childNodes = msgBodies.get(0).child(0).childNodes();
+//        String author = childNodes.get(0).toString();
 
         Post post = new Post();
         post.setName(postName);
         post.setText(postText);
-        post.setAuthor(author);
+        post.setLink(link);
+//        post.setAuthor(author);
         post.setCreated(postCreated);
 
         return post;

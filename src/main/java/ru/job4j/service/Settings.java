@@ -5,6 +5,10 @@ import java.util.Properties;
 
 public class Settings {
 
+    public Properties getProperties() {
+        return properties;
+    }
+
     private final Properties properties = new Properties();
 
     public void load(InputStream inputStream) {
