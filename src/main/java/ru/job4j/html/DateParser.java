@@ -35,7 +35,7 @@ public class DateParser {
             calendar.add(Calendar.DATE, -1);
         }
         int hours = Integer.parseInt(dateParts[1].split(":")[0]);
-        int minutes = Integer.parseInt(dateParts[1].split(":")[1]);
+        int minutes = Integer.parseInt(dateParts[1].split(":")[1].substring(0, 2));
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
         calendar.set(Calendar.SECOND, 0);
