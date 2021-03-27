@@ -1,0 +1,57 @@
+1)
+SELECT
+	person.name,
+	company.name
+FROM
+	person AS person
+		INNER JOIN company
+		ON NOT person.company_id = 5
+			AND person.company_id = company.id
+
+2)
+SELECT
+	company.name,
+	persons_count_in_company.person_count
+FROM
+	company
+	INNER JOIN (
+		SELECT
+	 		person.company_id AS company_id,
+			COUNT(person.id) AS person_count
+		FROM person
+		GROUP BY person.company_id
+		ORDER BY
+			person_count DESC
+		LIMIT 1) as persons_count_in_company
+	ON company.id = persons_count_in_company.company_id
+--------------------------------------------------
+Условие задачи:
+
+Вам даны 2 следующих скрипта, которые создают таблицы в БД:
+
+1. Таблица company
+
+CREATE TABLE company
+(
+    id integer NOT NULL,
+    name character varying,
+    CONSTRAINT company_pkey PRIMARY KEY (id)
+);
+2. Таблица person
+
+CREATE TABLE person
+(
+    id integer NOT NULL,
+    name character varying,
+    company_id integer,
+    CONSTRAINT person_pkey PRIMARY KEY (id)
+);
+Вам необходимо выполнить следующее:
+
+1. В одном запросе получить
+
+- имена всех person, которые не состоят в компании с id = 5;
+
+- название компании для каждого человека.
+
+2. Необходимо выбрать название компании с максимальным количеством человек + количество человек в этой компании.
