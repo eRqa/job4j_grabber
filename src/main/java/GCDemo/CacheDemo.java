@@ -50,13 +50,12 @@ public class CacheDemo {
     private String get(String key) {
         String result = "";
         if (cache.containsKey(key)) {
-            SoftReference<String> ref = cache.get(key);
-            if (ref == null) {
+            result = cache.get(key).get();
+            if (result == null) {
                 System.out.println("File was in cache, but now is aren't");
                 result = put(key);
             } else {
                 System.out.println("File " + key + " was received from cache");
-                result = ref.get();
             }
         } else {
             System.out.println("Cache not contains file " + key + ". Added to cache");
